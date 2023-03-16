@@ -8,6 +8,9 @@ import subprocess
 import json
 import numpy as np
 import shutil
+import os
+import stat
+from git import Repo
 
 # colocar token aqui
 token = "eOVIR7AwkNb7mzKjuY4UoGSqedkBkL0dC4nu"
@@ -102,20 +105,28 @@ else:
     fillCsv()
 
 # le do csv de repositorios e itera sobre eles
-repos = pd.read_csv(reposCsvPath, header=1, sep=';', usecols=[1, 2, 3, 4, 6])
+repos = pd.read_csv(reposCsvPath, header=0, sep=';', usecols=[1, 2, 3, 4, 6])
 
 if ckCsvPath.is_file():
-    ckResults = pd.read_csv(ckCsvPath, header= 1, sep=';')
+    ckResults = pd.read_csv(ckCsvPath, header= 0, sep=';')
 else:
     ckResults = pd.DataFrame()
 
-for repo in repos.values.tolist():
-    if repo[0] in ckResults.values.tolist():
+lastRepoFolder = ''
+
+for index, repo in enumerate(repos.values.tolist()):
+    if repo[0] in ckResults['name'].tolist():
+        print('aqui')
         continue
     else:
-        clonedRepo = pygit2.clone_repository(repo[1], './repos/'+repo[0])
+        if index == 6:
+            break;
+
+        repoFolder = "./repos/"+repo[0]
+
+        Repo.clone_from(repo[1], repoFolder, depth=1, filter='blob:none')
+        #clonedRepo = pygit2.clone_repository(repo[1]+".git", repoFolder)
         # repositorio clonado: clonedRepo, uma classe que contem info do repositorio
-        # inserir a logica do ck aqui
 
         ckFileSubstring = repo[0]+"ck"
 
@@ -134,20 +145,39 @@ for repo in repos.values.tolist():
             "popularity": repo[2],
             "releases":repo[3],
             "age": repo[4],
-            "loc":sum(ckMetricsFile['loc']),
-            "cbo": np.median(ckMetricsFile['cbo']),
-            "dit":np.median(ckMetricsFile['dit']),
-            "lcom":np.median(ckMetricsFile['lcom']),
+            "loc": np.sum(ckMetricsFile['loc']) if len(ckMetricsFile['loc']) > 0 else None,
+            "cbo": np.median(ckMetricsFile['cbo']) if len(ckMetricsFile['cbo']) > 0 else None,
+            "dit": np.amax(ckMetricsFile['dit']) if len(ckMetricsFile['dit']) > 0 else None,
+            "lcom":np.median(ckMetricsFile['lcom']) if len(ckMetricsFile['lcom']) > 0 else None,
         }
+
 
         # depois append no data frame do pandas e grava no csv pra não perder o progresso do script
         ckResults = pd.concat([ckResults,pd.DataFrame.from_records([metrics])])
         ckResults.to_csv(ckCsvName, index=False, sep=';')
 
-        repoFolder = "./repos/"+repo[0]
         shutil.rmtree(repoFolder, ignore_errors=True)
 
-        quit()
+        def on_rm_error(func, path, exc_info):
+            os.chmod(path, stat.S_IWRITE)
+            os.unlink(path)
+
+        def deleteRepo(last):
+            for i in os.listdir(last):
+                if i.endswith('git'):
+                    tmp = os.path.join(last, i)
+                    # We want to unhide the .git folder before unlinking it.
+                    while True:
+                        subprocess.call(['attrib', '-H', tmp])
+                        break
+                    shutil.rmtree(tmp, onerror=on_rm_error)
+
+        if lastRepoFolder != '':
+            deleteRepo(lastRepoFolder)
+
+        lastRepoFolder = repoFolder
+
+
 
 
 

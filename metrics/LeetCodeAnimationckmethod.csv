@@ -1,0 +1,9 @@
+file,class,method,constructor,line,cbo,cboModified,fanin,fanout,wmc,rfc,loc,returnsQty,variablesQty,parametersQty,methodsInvokedQty,methodsInvokedLocalQty,methodsInvokedIndirectLocalQty,loopQty,comparisonsQty,tryCatchQty,parenthesizedExpsQty,stringLiteralsQty,numbersQty,assignmentsQty,mathOperationsQty,maxNestedBlocksQty,anonymousClassesQty,innerClassesQty,lambdasQty,uniqueWordsQty,modifiers,logStatementsQty,hasJavaDoc
+C:\medicao-lab2\repos\LeetCodeAnimation\0155-min-stack\Code\1.java,MinStack,push/1[int],false,12,0,0,0,0,3,4,12,0,0,1,4,0,0,0,0,0,0,0,0,1,0,2,0,0,0,2,1,0,false
+C:\medicao-lab2\repos\LeetCodeAnimation\0155-min-stack\Code\1.java,MinStack,pop/0,false,25,0,0,0,0,1,1,4,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,false
+C:\medicao-lab2\repos\LeetCodeAnimation\0155-min-stack\Code\1.java,MinStack,getMin/0,false,34,0,0,0,0,1,1,3,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1,0,false
+C:\medicao-lab2\repos\LeetCodeAnimation\0155-min-stack\Code\1.java,MinStack,top/0,false,30,0,0,0,0,1,1,3,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,false
+C:\medicao-lab2\repos\LeetCodeAnimation\0155-min-stack\Code\1.java,MinStack,MinStack/0,true,7,1,0,0,0,1,0,4,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,8,1,0,true
+C:\medicao-lab2\repos\LeetCodeAnimation\0035-search-insert-position\Code\1.java,Solution1,"searchInsert/2[int[],int]",false,2,1,0,0,0,3,0,9,1,1,2,0,0,0,1,0,0,0,0,1,1,0,2,0,0,0,4,1,0,false
+C:\medicao-lab2\repos\LeetCodeAnimation\0035-search-insert-position\Code\2.java,Solution2,"searchInsert/2[int[],int]",false,4,1,0,0,0,4,0,17,2,3,2,0,0,0,1,0,0,1,0,5,5,5,2,0,0,0,6,1,0,false
+C:\medicao-lab2\repos\LeetCodeAnimation\0946--validate-stack-sequences\Code\1.java,Solution,"validateStackSequences/2[int[],int[]]",false,2,1,0,0,0,6,4,16,2,3,2,4,0,0,2,1,0,0,0,1,3,0,2,0,0,0,11,1,0,false
