@@ -1,0 +1,9 @@
+file,class,method,constructor,line,cbo,cboModified,fanin,fanout,wmc,rfc,loc,returnsQty,variablesQty,parametersQty,methodsInvokedQty,methodsInvokedLocalQty,methodsInvokedIndirectLocalQty,loopQty,comparisonsQty,tryCatchQty,parenthesizedExpsQty,stringLiteralsQty,numbersQty,assignmentsQty,mathOperationsQty,maxNestedBlocksQty,anonymousClassesQty,innerClassesQty,lambdasQty,uniqueWordsQty,modifiers,logStatementsQty,hasJavaDoc
+C:\Projetos\LabExperimentacao\medicao-lab2\repos\from-java-to-kotlin\others\Developer.java,Developer,setName/1[java.lang.String],false,15,0,0,0,0,1,0,3,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,3,1,0,false
+C:\Projetos\LabExperimentacao\medicao-lab2\repos\from-java-to-kotlin\others\Developer.java,Developer,toString/0,false,47,0,0,0,0,1,0,3,1,0,0,0,0,0,0,0,0,0,3,0,0,2,0,0,0,0,4,1,0,false
+C:\Projetos\LabExperimentacao\medicao-lab2\repos\from-java-to-kotlin\others\Developer.java,Developer,setAge/1[int],false,23,0,0,0,0,1,0,3,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,3,1,0,false
+C:\Projetos\LabExperimentacao\medicao-lab2\repos\from-java-to-kotlin\others\Developer.java,Developer,hashCode/0,false,40,0,0,0,0,2,1,5,1,1,0,1,0,0,0,1,0,0,0,2,2,2,0,0,0,0,6,1,0,false
+C:\Projetos\LabExperimentacao\medicao-lab2\repos\from-java-to-kotlin\others\Developer.java,Developer,"Developer/2[java.lang.String,int]",true,6,0,0,0,0,1,0,4,0,0,2,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,3,1,0,false
+C:\Projetos\LabExperimentacao\medicao-lab2\repos\from-java-to-kotlin\others\Developer.java,Developer,getName/0,false,11,0,0,0,0,1,0,3,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,1,0,false
+C:\Projetos\LabExperimentacao\medicao-lab2\repos\from-java-to-kotlin\others\Developer.java,Developer,equals/1[java.lang.Object],false,28,1,0,0,0,6,2,7,4,1,1,2,0,0,0,6,0,0,0,0,1,0,1,0,0,0,12,1,0,false
+C:\Projetos\LabExperimentacao\medicao-lab2\repos\from-java-to-kotlin\others\Developer.java,Developer,getAge/0,false,19,0,0,0,0,1,0,3,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,1,0,false

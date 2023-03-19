@@ -112,71 +112,61 @@ if ckCsvPath.is_file():
 else:
     ckResults = pd.DataFrame()
 
-lastRepoFolder = ''
-
 for index, repo in enumerate(repos.values.tolist()):
     if repo[0] in ckResults['name'].tolist():
-        print('aqui')
         continue
     else:
-        if index == 6:
-            break;
-
+        print(repo[0])
+        print(repo[1])
+        
         repoFolder = "./repos/"+repo[0]
-
-        Repo.clone_from(repo[1], repoFolder, depth=1, filter='blob:none')
-        #clonedRepo = pygit2.clone_repository(repo[1]+".git", repoFolder)
-        # repositorio clonado: clonedRepo, uma classe que contem info do repositorio
 
         ckFileSubstring = repo[0]+"ck"
 
-        powershellCommand = "java -jar ck/target/ck-0.7.1-SNAPSHOT-jar-with-dependencies.jar repos/"+repo[0]+" true 0 False metrics/"+ckFileSubstring
+        ckMetricsFilePath = f"./metrics/{ckFileSubstring}class.csv"
 
-        process = subprocess.Popen(["powershell",powershellCommand], stdout=subprocess.PIPE)
+        if not os.path.isdir(repoFolder) and not (os.path.isfile(ckMetricsFilePath) and os.stat(ckMetricsFilePath).st_size != 0):
+            Repo.clone_from(repo[1]+".git", repoFolder, depth=1, filter='blob:none')
 
-        output, error = process.communicate()
+        # repositorio clonado: clonedRepo, uma classe que contem info do repositorio
 
-        ckMetricsFilePath = "./metrics/"+ckFileSubstring+"class.csv"
+        if not os.path.isfile(ckMetricsFilePath) or os.stat(ckMetricsFilePath).st_size == 0:
+            powershellCommand = f"java -jar ck/target/ck-0.7.1-SNAPSHOT-jar-with-dependencies1.jar repos/{repo[0]} true 0 False metrics/{ckFileSubstring}"
 
-        ckMetricsFile = pd.read_csv(ckMetricsFilePath,sep=',')
+            process = subprocess.Popen(["powershell",powershellCommand], stdout=subprocess.PIPE)
 
-        metrics = {
-            "name": repo[0],
-            "popularity": repo[2],
-            "releases":repo[3],
-            "age": repo[4],
-            "loc": np.sum(ckMetricsFile['loc']) if len(ckMetricsFile['loc']) > 0 else None,
-            "cbo": np.median(ckMetricsFile['cbo']) if len(ckMetricsFile['cbo']) > 0 else None,
-            "dit": np.amax(ckMetricsFile['dit']) if len(ckMetricsFile['dit']) > 0 else None,
-            "lcom":np.median(ckMetricsFile['lcom']) if len(ckMetricsFile['lcom']) > 0 else None,
-        }
+            output, error = process.communicate()
 
+        if os.path.isfile(ckMetricsFilePath) and os.stat(ckMetricsFilePath).st_size != 0:
+            print(index)
+            ckMetricsFile = pd.read_csv(ckMetricsFilePath,sep=',')
+            metrics = {
+                "name": repo[0],
+                "popularity": repo[2],
+                "releases":repo[3],
+                "age": repo[4],
+                "loc": np.sum(ckMetricsFile['loc']) if len(ckMetricsFile['loc']) > 0 else None,
+                "cbo": np.median(ckMetricsFile['cbo']) if len(ckMetricsFile['cbo']) > 0 else None,
+                "dit": np.amax(ckMetricsFile['dit']) if len(ckMetricsFile['dit']) > 0 else None,
+                "lcom":np.median(ckMetricsFile['lcom']) if len(ckMetricsFile['lcom']) > 0 else None,
+            }
+        else:
+            metrics = {
+                "name": repo[0],
+                "popularity": repo[2],
+                "releases":repo[3],
+                "age": repo[4],
+                "loc":  None,
+                "cbo": None,
+                "dit": None,
+                "lcom": None,
+            }
 
         # depois append no data frame do pandas e grava no csv pra não perder o progresso do script
         ckResults = pd.concat([ckResults,pd.DataFrame.from_records([metrics])])
         ckResults.to_csv(ckCsvName, index=False, sep=';')
 
         shutil.rmtree(repoFolder, ignore_errors=True)
-
-        def on_rm_error(func, path, exc_info):
-            os.chmod(path, stat.S_IWRITE)
-            os.unlink(path)
-
-        def deleteRepo(last):
-            for i in os.listdir(last):
-                if i.endswith('git'):
-                    tmp = os.path.join(last, i)
-                    # We want to unhide the .git folder before unlinking it.
-                    while True:
-                        subprocess.call(['attrib', '-H', tmp])
-                        break
-                    shutil.rmtree(tmp, onerror=on_rm_error)
-
-        if lastRepoFolder != '':
-            deleteRepo(lastRepoFolder)
-
-        lastRepoFolder = repoFolder
-
 
 
 
