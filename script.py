@@ -4,6 +4,13 @@ import pandas as pd
 import datetime
 from pathlib import Path
 import pygit2
+import subprocess
+import json
+import numpy as np
+import shutil
+import os
+import stat
+from git import Repo
 
 # colocar token aqui
 token = "eOVIR7AwkNb7mzKjuY4UoGSqedkBkL0dC4nu"
@@ -97,25 +104,70 @@ if reposCsvPath.is_file():
 else:
     fillCsv()
 
-
 # le do csv de repositorios e itera sobre eles
-repos = pd.read_csv(reposCsvPath, header=1, sep=';', usecols=[1, 2])
+repos = pd.read_csv(reposCsvPath, header=0, sep=';', usecols=[1, 2, 3, 4, 6])
 
 if ckCsvPath.is_file():
-    ckResults = pd.read_csv(ckCsvPath, header=1, sep=';')
+    ckResults = pd.read_csv(ckCsvPath, header= 0, sep=';')
 else:
     ckResults = pd.DataFrame()
 
-for repo in repos.values.tolist():
-    if repo[1] in ckResults.values.tolist():
+for index, repo in enumerate(repos.values.tolist()):
+    if repo[0] in ckResults['name'].tolist():
         continue
     else:
-        clonedRepo = pygit2.clone_repository('repos/'+repo[1], './'+repo[0])
+        print(repo[0])
+        print(repo[1])
+        
+        repoFolder = "./repos/"+repo[0]
+
+        ckFileSubstring = repo[0]+"ck"
+
+        ckMetricsFilePath = f"./metrics/{ckFileSubstring}class.csv"
+
+        if not os.path.isdir(repoFolder) and not (os.path.isfile(ckMetricsFilePath) and os.stat(ckMetricsFilePath).st_size != 0):
+            Repo.clone_from(repo[1]+".git", repoFolder, depth=1, filter='blob:none')
+
         # repositorio clonado: clonedRepo, uma classe que contem info do repositorio
-        # inserir a logica do ck aqui
+
+        if not os.path.isfile(ckMetricsFilePath) or os.stat(ckMetricsFilePath).st_size == 0:
+            powershellCommand = f"java -jar ck/target/ck-0.7.1-SNAPSHOT-jar-with-dependencies1.jar repos/{repo[0]} true 0 False metrics/{ckFileSubstring}"
+
+            process = subprocess.Popen(["powershell",powershellCommand], stdout=subprocess.PIPE)
+
+            output, error = process.communicate()
+
+        if os.path.isfile(ckMetricsFilePath) and os.stat(ckMetricsFilePath).st_size != 0:
+            print(index)
+            ckMetricsFile = pd.read_csv(ckMetricsFilePath,sep=',')
+            metrics = {
+                "name": repo[0],
+                "popularity": repo[2],
+                "releases":repo[3],
+                "age": repo[4],
+                "loc": np.sum(ckMetricsFile['loc']) if len(ckMetricsFile['loc']) > 0 else None,
+                "cbo": np.median(ckMetricsFile['cbo']) if len(ckMetricsFile['cbo']) > 0 else None,
+                "dit": np.amax(ckMetricsFile['dit']) if len(ckMetricsFile['dit']) > 0 else None,
+                "lcom":np.median(ckMetricsFile['lcom']) if len(ckMetricsFile['lcom']) > 0 else None,
+            }
+        else:
+            metrics = {
+                "name": repo[0],
+                "popularity": repo[2],
+                "releases":repo[3],
+                "age": repo[4],
+                "loc":  None,
+                "cbo": None,
+                "dit": None,
+                "lcom": None,
+            }
 
         # depois append no data frame do pandas e grava no csv pra não perder o progresso do script
-        ckResults.append([clonedRepo.path])
+        ckResults = pd.concat([ckResults,pd.DataFrame.from_records([metrics])])
         ckResults.to_csv(ckCsvName, index=False, sep=';')
-        quit()
+
+        shutil.rmtree(repoFolder, ignore_errors=True)
+
+
+
 
