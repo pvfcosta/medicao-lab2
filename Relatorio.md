@@ -124,6 +124,27 @@ Coeficiente de correlação de Quantidade de Releases x DIT :
 Coeficiente de correlação de Quantidade de Releases x LCOM : 
 -0.0198
 
+**Gráfico 10 - CBO x LOC**
+
+![Gráfico 10 - CBO x LOC](graphs/lm_loc_cbo.png "Gráfico 10 - CBO x LOC")
+
+Coeficiente de correlação de LOC x CBO : 
+0.1430
+
+**Gráfico 11 - DIT x LOC**
+
+![Gráfico 11 - DIT x LOC](graphs/lm_loc_dit.png "Gráfico 11 - DIT x LOC")
+
+Coeficiente de correlação de LOC x DIT : 
+0.4301
+
+**Gráfico 12 - LCOM x LOC**
+
+![Gráfico 12 - LCOM x LOC](graphs/lm_loc_lcom.png "Gráfico 12 - LCOM x LOC")
+
+Coeficiente de correlação de LOC x LCOM : 
+0.0324
+
 # 4. Discussão
 
 Como foi possível perceber pelos gráficos e coeficientes apresentados na seção anterior, não é possível afirmar que existe uma relação entre as métricas de qualidade utilizadas e os parâmetros popularidade, idade, tamanho do projeto e a atividade dos repositórios.
