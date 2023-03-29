@@ -11,6 +11,7 @@ import shutil
 import os
 import stat
 from git import Repo
+import matplotlib.pyplot as plot
 
 # colocar token aqui
 token = "eOVIR7AwkNb7mzKjuY4UoGSqedkBkL0dC4nu"
@@ -170,4 +171,89 @@ for index, repo in enumerate(repos.values.tolist()):
 
 
 
+# cria gráfico
+ckResultsGraph = pd.read_csv(ckCsvPath, header= 0, sep=';')
 
+ckResultsGraph.plot.scatter(x='popularity', y='loc')
+plot.savefig('graphs/sct_popularity_loc.png')
+# ckResultsGraph.plot.hist(x='popularity', y='loc')
+# plot.savefig('graphs/hst_popularity_loc.png')
+# ckResultsGraph.boxplot(column=['popularity'], by='loc')
+# plot.savefig('graphs/bxs_popularity_loc.png')
+
+ckResultsGraph.plot.scatter(x='popularity', y='cbo')
+plot.savefig('graphs/sct_popularity_cbo.png')
+# ckResultsGraph.plot.hist(x='popularity', y='loc')
+# plot.savefig('graphs/hst_popularity_cbo.png')
+# ckResultsGraph.boxplot(column='popularity', by='cbo')
+# plot.savefig('graphs/bxs_popularity_cbo.png')
+
+ckResultsGraph.plot.scatter(x='popularity', y='dit')
+plot.savefig('graphs/sct_popularity_dit.png')
+# ckResultsGraph.plot.hist(x='popularity', y='dit')
+# plot.savefig('graphs/hst_popularity_dit.png')
+# ckResultsGraph.boxplot(column='popularity', by='dit')
+# plot.savefig('graphs/bxs_popularity_dit.png')
+
+ckResultsGraph.plot.scatter(x='popularity', y='lcom')
+plot.savefig('graphs/sct_popularity_lcom.png')
+# ckResultsGraph.plot.hist(x='popularity', y='lcom')
+# plot.savefig('graphs/hst_popularity_lcom.png')
+# ckResultsGraph.boxplot(column='popularity', by='lcom')
+# plot.savefig('graphs/bxs_popularity_lcom.png')
+
+ckResultsGraph.plot.scatter(x='releases', y='loc')
+plot.savefig('graphs/sct_releases_loc.png')
+# ckResultsGraph.plot.hist(x='releases', y='loc')
+# plot.savefig('graphs/hst_releases_loc.png')
+# ckResultsGraph.boxplot(column='releases', by='loc')
+# plot.savefig('graphs/bxs_releases_loc.png')
+
+ckResultsGraph.plot.scatter(x='releases', y='cbo')
+plot.savefig('graphs/sct_releases_cbo.png')
+ckResultsGraph.plot.hist(x='releases', y='cbo')
+plot.savefig('graphs/hst_releases_cbo.png')
+# ckResultsGraph.boxplot(column='releases', by='cbo')
+# plot.savefig('graphs/bxs_releases_cbo.png')
+
+ckResultsGraph.plot.scatter(x='releases', y='dit')
+plot.savefig('graphs/sct_releases_dit.png')
+# ckResultsGraph.plot.hist(x='releases', y='dit')
+# plot.savefig('graphs/hst_releases_dit.png')
+# ckResultsGraph.boxplot(column='releases', by='dit')
+# plot.savefig('graphs/bxs_releases_dit.png')
+
+ckResultsGraph.plot.scatter(x='releases', y='lcom')
+plot.savefig('graphs/sct_releases_lcom.png')
+# ckResultsGraph.plot.hist(x='releases', y='lcom')
+# plot.savefig('graphs/hst_releases_lcom.png')
+# ckResultsGraph.boxplot(column='releases', by='lcom')
+# plot.savefig('graphs/bxs_releases_lcom.png')
+
+ckResultsGraph.plot.scatter(x='age', y='loc')
+plot.savefig('graphs/sct_age_loc.png')
+# ckResultsGraph.plot.hist(x='age', y='loc')
+# plot.savefig('graphs/hst_age_loc.png')
+# ckResultsGraph.boxplot(column='age', by='loc')
+# plot.savefig('graphs/bxs_age_loc.png')
+
+ckResultsGraph.plot.scatter(x='age', y='cbo')
+plot.savefig('graphs/sct_age_cbo.png')
+ckResultsGraph.plot.hist(x='age', y='cbo')
+plot.savefig('graphs/hst_age_cbo.png')
+# ckResultsGraph.boxplot(column='age', by='cbo')
+# plot.savefig('graphs/bxs_age_cbo.png')
+
+ckResultsGraph.plot.scatter(x='age', y='dit')
+plot.savefig('graphs/sct_age_dit.png')
+# ckResultsGraph.plot.hist(x='age', y='dit')
+# plot.savefig('graphs/hst_age_dit.png')
+# ckResultsGraph.boxplot(column='age', by='dit')
+# plot.savefig('graphs/bxs_age_dit.png')
+
+ckResultsGraph.plot.scatter(x='age', y='lcom')
+plot.savefig('graphs/sct_age_lcom.png')
+# ckResultsGraph.plot.hist(x='age', y='lcom')
+# plot.savefig('graphs/hst_age_lcom.png')
+# ckResultsGraph.boxplot(column='age', by='lcom')
+# plot.savefig('graphs/bxs_age_lcom.png')
